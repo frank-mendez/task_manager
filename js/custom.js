@@ -107,17 +107,22 @@ Module.Firebase = (function(){
         var storesRef = rootRef.child('task');
         var newStoreRef = storesRef.push();
         newStoreRef.set({
-            description: 'Family Gathering',
-            id: 5,
-            labels: {
-                1: 'test',
-                2: 'test 2'
-            },
-            order: 5,
+            description: 'Science Homework',
+            id: 1,
+            order: 1,
             status: 'to-do',
             priority: 'low',
-            title: 'Dinner Party'
+            title: 'Homework'
         });
+
+        var newID = newStoreRef.getKey();
+
+        var label = rootRef.child('task/' + newID + '/labels');
+        label.push('test 1');
+        label.push('test 2');
+
+
+        console.log(newID);
 
     }
 
@@ -133,6 +138,6 @@ Module.Firebase = (function(){
 $(document).ready(function(){
 
     //Module.Firebase.create();
-    //Module.Firebase._push();
+    Module.Firebase._push();
 
 });
