@@ -138,6 +138,6 @@ Module.Firebase = (function(){
 $(document).ready(function(){
 
     //Module.Firebase.create();
-    Module.Firebase._push();
+    //Module.Firebase._push();
 
 });
