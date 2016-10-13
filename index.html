@@ -29,7 +29,6 @@
                     <h3>Task Manager</h3>
                 </div>
                 <div class="panel-body">
-                    <!--<p>{{ items }}</p>-->
                     <form class="form-horizontal" action="">
                         <div class="form-group">
                             <div class="col-sm-6">
@@ -73,8 +72,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-sm-6 col-sm-offset-8">
-                                <button class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span> Remove Label</button>
+                            <div class="col-sm-2 col-sm-offset-10">
                                 <button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add Label</button>
                             </div>
                         </div>
@@ -109,9 +107,11 @@
                             </div>
                         </div>
                     </form>
+
+                    <!--<p>{{ items }}</p>-->
+
                     <table class="table table-bordered table-responsive">
                         <thead>
-                        <th>ID</th>
                         <th>Title</th>
                         <th>Labels</th>
                         <th>Priority</th>
@@ -119,8 +119,7 @@
                         <th>Action</th>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="data in items | filter:searchText">
-                            <td>{{ data.id }}</td>
+                        <tr ng-repeat="data in items | toArray | filter: searchText">
                             <td>{{ data.title }}</td>
                             <td>
                                 <ul>
@@ -143,6 +142,9 @@
 
 
 
+<!--Angular-->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+<script src="js/app.js"></script>
 <!--Firebase-->
 <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
 <script>
@@ -156,14 +158,13 @@
     };
     firebase.initializeApp(config);
 </script>
+<!-- AngularFire -->
+<script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
 <!--Custom JS-->
 <script src="js/custom.js"></script>
-<!--Angular-->
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
-<script src="js/app.js"></script>
 </body>
 </html>
