@@ -9,17 +9,20 @@ angular
     .module('taskManager')
     .controller('TaskListController', TaskListController);
 
-function TaskListController(){
+function TaskListController($scope){
 
     var database = firebase.database();
 
-    database.ref('/task/').once('value').then(function(snapshot) {
+    database.ref('/task/task').once('value').then(function(snapshot) {
 
-        var tasks = snapshot.val();
+        $scope.items = snapshot.val();
 
-        console.log(tasks);
+        console.log($scope.items);
+
+        $scope.$apply();
 
     });
+
 
 }
 
