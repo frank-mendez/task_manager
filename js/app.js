@@ -21,17 +21,20 @@ angular
 
 function TaskListController($scope){
 
-    var database = firebase.database();
+    var vm = this;
 
-    $scope.items = [];
+    var database = firebase.database();
 
     database.ref('/task').once('value').then(function(snapshot) {
 
-        $scope.items = snapshot.val();
 
-        console.log($scope.items);
+        $scope.$apply(function(){
 
-        $scope.$apply();
+            vm.items = snapshot.val();
+
+            console.log(vm.items);
+
+        })
 
     });
 
