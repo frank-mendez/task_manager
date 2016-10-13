@@ -22,6 +22,7 @@ Module.Firebase = (function(){
 
     }
 
+
     function create() {
 
         //var database = firebase.database();
@@ -99,9 +100,31 @@ Module.Firebase = (function(){
 
     }
 
+    //test for Firebase Unique ID
+    function _push(){
+
+        var rootRef = firebase.database().ref();
+        var storesRef = rootRef.child('task');
+        var newStoreRef = storesRef.push();
+        newStoreRef.set({
+            description: 'Family Gathering',
+            id: 5,
+            labels: {
+                1: 'test',
+                2: 'test 2'
+            },
+            order: 5,
+            status: 'to-do',
+            priority: 'low',
+            title: 'Dinner Party'
+        });
+
+    }
+
     return{
         init: init,
-        create: create
+        create: create,
+        _push: _push
     }
 
 })();
@@ -110,5 +133,6 @@ Module.Firebase = (function(){
 $(document).ready(function(){
 
     //Module.Firebase.create();
+    //Module.Firebase._push();
 
 });
