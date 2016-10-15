@@ -24,155 +24,221 @@
 <div class="">
     <div class="col-sm-12">
         <div class="col-md-12">
-            <div class="panel-success" ng-controller="TaskListController as taskList">
+            <div class="panel panel-success" ng-controller="TaskListController as taskList">
                 <div class="panel-heading">
-                    <h3>Task Manager</h3>
+                    <h3 class="panel-title">Task Manager</h3>
                 </div>
                 <div class="panel-body">
 
                     <div class="col-sm-12">
 
                         <div class="col-sm-6">
-                            <form class="form-horizontal" action="">
-                                <div class="form-group">
-                                    <div class="col-sm-6">
-                                        <h4>{{ formTitle }}</h4>
-                                    </div>
+                            <div class="col-sm-12">
 
-                                </div>
-                                <input type="hidden" ng-model="data.id" />
-                                <div class="form-group">
-                                    <label class="control-label col-sm-2" for="">Title</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" ng-model="data.title" class="form-control" />
+                                <div class="panel {{ panelColor }}">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">{{ formTitle }}</h3>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-sm-2" for="">Priority</label>
-                                    <div class="col-sm-4">
-                                        <select name="" ng-model="data.priority" id="" class="form-control">
-                                            <option value="high">High</option>
-                                            <option value="low">Low</option>
-                                        </select>
+                                    <div class="panel-body">
+                                        <form class="form-horizontal" action="">
+
+                                            <input type="hidden" ng-model="data.id" />
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 col-md-2" for="">Title</label>
+                                                <div class="col-sm-12 col-md-10">
+                                                    <input type="text" ng-model="data.title" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 col-md-2" for="">Priority</label>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <select name="" ng-model="data.priority" id="" class="form-control">
+                                                        <option value="high">High</option>
+                                                        <option value="low">Low</option>
+                                                    </select>
+                                                </div>
+                                                <label class="control-label col-sm-12 col-md-2" for="">Status</label>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <select name="" ng-model="data.status" id="" class="form-control">
+                                                        <option selected="selected" value="to-do">To do</option>
+                                                        <option value="completed">Completed</option>
+                                                        <option value="on the process">On the Process</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 col-md-2" for="">Description</label>
+                                                <div class="col-sm-12 col-md-10">
+                                                    <textarea name="" ng-model="data.description" id="" class="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" ng-repeat="label in data.labels">
+                                                <label class="control-label col-sm-12 col-md-2" for="">Label</label>
+                                                <div class="col-sm-12 col-md-10">
+                                                    <input type="text" ng-model="label.text" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-12 col-md-3 col-lg-3 pull-right">
+                                                    <button type="button"
+                                                            ng-click="addLabel()"
+                                                            class="btn btn-primary btn-block">Add Label</button>
+                                                </div>
+                                            </div>
+
+
+                                        </form>
                                     </div>
-                                    <label class="control-label col-sm-2" for="">Status</label>
-                                    <div class="col-sm-4">
-                                        <select name="" ng-model="data.status" id="" class="form-control">
-                                            <option selected="selected" value="to-do">To do</option>
-                                            <option value="completed">Completed</option>
-                                            <option value="on the process">On the Process</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-sm-2" for="">Description</label>
-                                    <div class="col-sm-10">
-                                        <textarea name="" ng-model="data.description" id="" class="form-control"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group" ng-repeat="label in data.labels">
-                                    <label class="control-label col-sm-2" for="">Labels</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" ng-model="label.text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-2 col-sm-offset-10">
-                                        <button type="button"
-                                                ng-click="addLabel()"
-                                                class="btn btn-primary btn-block"><span class="glyphicon glyphicon-plus"></span> Add Label</button>
-                                    </div>
-                                </div>
-                                <div class="form-group" ng-hide="saveBtn">
-                                    <div class="col-sm-2 col-sm-offset-10">
-                                        <button type="button"
-                                                class="btn btn-success btn-block"
+                                    <div class="panel-footer">
+                                        <button type="button" ng-hide="saveBtn"
+                                                class="btn btn-success pull-right"
                                                 ng-click="submit()"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
+                                        <div ng-hide="updateBtn">
+                                            <button type="button"
+                                                    class="btn btn-default"
+                                                    ng-click="cancel()"> Cancel</button>
+                                            <button type="button"
+                                                    class="btn btn-warning pull-right"
+                                                    ng-click="save()"><span class="glyphicon glyphicon-floppy-disk"></span> Update</button>
+                                        </div>
+                                        <div class="clearfix"></div>
                                     </div>
                                 </div>
-                                <div class="form-group" ng-hide="updateBtn">
-                                    <div class="col-sm-4 col-sm-offset-8">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <button type="button"
-                                                        class="btn btn-block btn-default"
-                                                        ng-click="cancel()"> Cancel</button>
+
+
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-4">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">To do List
+                                            <span class="pull-right">
+                                                {{ filteredTodo.length }}
+                                            </span>
+                                        </h3>
+                                    </div>
+                                    <div class="panel-body panel-to-do">
+                                        <div class="panel panel-default" ng-repeat="data in taskList.items | toArray | filter: status.todo as filteredTodo">
+                                            <div class="panel-body">
+                                                <p>{{ data.title }}</p>
+                                                <p><span class="btn label label-primary">Mark as In Progress</span></p>
                                             </div>
-                                            <div class="col-sm-6">
-                                                <button type="button"
-                                                        class="btn btn-danger btn-block"
-                                                        ng-click="save()"><span class="glyphicon glyphicon-floppy-disk"></span> Update</button>
-                                            </div>
+                                            <p class="panel-small-info"><i><span class="glyphicon glyphicon-time"></span> Added: 8 hours ago</i></p>
                                         </div>
                                     </div>
                                 </div>
-
-                            </form>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-4">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">In Progress
+                                            <span class="pull-right">
+                                                {{ filteredInProgress.length }}
+                                            </span>
+                                        </h3>
+                                    </div>
+                                    <div class="panel-body panel-in-progress">
+                                        <div class="panel panel-default" ng-repeat="data in taskList.items | toArray | filter: status.inProgress as filteredInProgress">
+                                            <div class="panel-body">
+                                                <p>{{ data.title }}</p>
+                                                <p><span class="btn label label-success">Mark as Completed</span></p>
+                                            </div>
+                                            <p class="panel-small-info"><i><span class="glyphicon glyphicon-time"></span> Added: 2 days ago</i></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-4">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Completed
+                                            <span class="pull-right">
+                                                {{ filteredCompleted.length }}
+                                            </span>
+                                        </h3>
+                                    </div>
+                                    <div class="panel-body panel-completed">
+                                        <div class="panel panel-default" ng-repeat="data in taskList.items | toArray | filter: status.completed as filteredCompleted">
+                                            <div class="panel-body">
+                                                {{ data.title }}
+                                            </div>
+                                            <p class="panel-small-info"><i><span class="glyphicon glyphicon-time"></span> Added: 10 mins ago</i></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col-sm-6">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Task List</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <form class="form-horizontal" action="">
 
-                            <form class="form-horizontal" action="">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-12 col-md-2" for="">Filter Priority</label>
+                                            <div class="col-sm-12 col-md-3">
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="filter_priority" ng-model="searchText" value="high"> High
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="filter_priority" ng-model="searchText" value="low"> Low
+                                                </label>
+                                            </div>
+                                            <label class="control-label col-sm-12 col-md-2" for="">Filter Status</label>
+                                            <div class="col-sm-12 col-md-5">
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="filter_status" ng-model="searchText" value="completed"> Completed
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="filter_status" ng-model="searchText" value="on the process"> On the Process
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="filter_status" ng-model="searchText" value="to-do"> To-do
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-12 col-md-4 pull-right">
+                                                <input type="text" class="form-control" ng-model="searchText" placeholder="Search"/>
+                                            </div>
+                                        </div>
 
-                                <div class="form-group">
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control" ng-model="searchText" placeholder="Search"/>
+                                    </form>
+
+
+                                    <table class="table table-bordered table-responsive">
+                                        <thead>
+                                        <th>Title</th>
+                                        <!--<th>Description</th>
+                                        <th>Labels</th>-->
+                                        <th>Priority</th>
+                                        <!--<th>Status</th>-->
+                                        <th>Action</th>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="data in taskList.items | toArray | filter: searchText as filteredText">
+                                            <td>{{ data.title }}</td>
+                                            <!--<td>{{ data.description }}</td>
+                                            <td>
+                                                <ul>
+                                                    <li ng-repeat="label in data.labels"> {{ label }} </li>
+                                                </ul>
+                                            </td>-->
+                                            <td>{{ data.priority }}</td>
+                                            <!--<td>{{ data.status }}</td>-->
+                                            <td>
+                                                <button id="" ng-click="update(data.id)" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span></button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="pull-right">
+                                        <i>Total Result: {{ filteredText.length }}</i>
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <label class="control-label col-sm-2" for="">Filter Priority</label>
-                                    <div class="col-sm-4">
-                                        <label class="radio-inline">
-                                            <input type="radio" name="filter_priority" ng-model="searchText" value="high"> High
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="filter_priority" ng-model="searchText" value="low"> Low
-                                        </label>
-                                    </div>
-                                    <label class="control-label col-sm-2" for="">Filter Status</label>
-                                    <div class="4">
-                                        <label class="radio-inline">
-                                            <input type="radio" name="filter_status" ng-model="searchText" value="completed"> Completed
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="filter_status" ng-model="searchText" value="on the process"> On the Process
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="filter_status" ng-model="searchText" value="to-do"> To-do
-                                        </label>
-                                    </div>
-                                </div>
-
-                            </form>
-
-
-                            <table class="table table-bordered table-responsive">
-                                <thead>
-                                <th>Title</th>
-                                <th>Description</th>
-                                <th>Labels</th>
-                                <th>Priority</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                                </thead>
-                                <tbody>
-                                <tr ng-repeat="data in taskList.items | toArray | filter: searchText">
-                                    <td>{{ data.title }}</td>
-                                    <td>{{ data.description }}</td>
-                                    <td>
-                                        <ul>
-                                            <li ng-repeat="label in data.labels"> {{ label }} </li>
-                                        </ul>
-                                    </td>
-                                    <td>{{ data.priority }}</td>
-                                    <td>{{ data.status }}</td>
-                                    <td>
-                                        <button id="" ng-click="update(data.id)" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span></button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                            </div>
                         </div>
 
                     </div>
