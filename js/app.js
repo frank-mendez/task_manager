@@ -41,6 +41,14 @@ function TaskListController($scope){
         $scope.updateBtn = true;
         $scope.saveBtn = false;
 
+        $scope.status = {
+            todo: 'to-do',
+            completed: 'completed',
+            inProgress: 'on the process'
+        }
+
+        $scope.panelColor = 'panel-info';
+
     }
 
     $scope.addLabel = function(){
@@ -115,6 +123,7 @@ function TaskListController($scope){
         $scope.formTitle = 'Update Task';
         $scope.updateBtn = false;
         $scope.saveBtn = true;
+        $scope.panelColor = 'panel-warning';
 
         console.log(taskID);
 
