@@ -107,12 +107,11 @@ Module.Firebase = (function(){
         var storesRef = rootRef.child('task');
         var newStoreRef = storesRef.push();
         newStoreRef.set({
-            description: 'Science Homework',
-            id: 1,
-            order: 1,
-            status: 'to-do',
-            priority: 'low',
-            title: 'Homework'
+            description: 'Weekend',
+            order: 3,
+            status: 'completed',
+            priority: 'high',
+            title: 'Household Chores'
         });
 
         var newID = newStoreRef.getKey();
@@ -121,8 +120,11 @@ Module.Firebase = (function(){
         label.push('test 1');
         label.push('test 2');
 
+        var insertID = rootRef.child('task/' + newID + '/id' );
+        insertID.set(newID);
 
-        console.log(newID);
+
+        //console.log(newID);
 
     }
 
