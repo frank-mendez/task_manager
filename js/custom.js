@@ -141,5 +141,6 @@ $(document).ready(function(){
 
     //Module.Firebase.create();
     //Module.Firebase._push();
+    $('[data-toggle="popover"]').popover()
 
 });
