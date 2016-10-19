@@ -3,7 +3,9 @@
  */
 
 //set the module
-angular.module('taskManager', []);
+angular.module('taskManager', [
+    'googlechart'
+]);
 
 angular
     .module('taskManager')
@@ -29,8 +31,10 @@ function TaskListController($scope){
 
         $scope.data = {
             status: 'to-do',
-            priority: 'low'
+            priority: 'low',
+            title: ' '
         };
+
 
         $scope.data.labels = [
             {
@@ -72,22 +76,34 @@ function TaskListController($scope){
 
         });
 
+        //counter
+        database.ref('counter').once('value').then(function(snapshot) {
+
+            $scope.counter = snapshot.val();
+
+        });
+
+
     }
+
 
     $scope.initializeData();
     $scope.firebase();
 
 
+
     $scope.submit = function(){
 
-        console.log($scope.data.labels);
+        //console.log($scope.data.labels);
+
+        var counter = $scope.counter + 1;
 
         var rootRef = firebase.database().ref();
         var storesRef = rootRef.child('task');
         var newStoreRef = storesRef.push();
         newStoreRef.set({
             description: $scope.data.description,
-            order: 3,
+            order: counter,
             status: $scope.data.status,
             priority: $scope.data.priority,
             title: $scope.data.title
@@ -105,6 +121,9 @@ function TaskListController($scope){
 
         var insertID = rootRef.child('task/' + newID + '/id' );
         insertID.set(newID);
+
+        var rootCounter = rootRef.child('counter');
+        rootCounter.set(counter);
 
         $scope.firebase();
         $scope.initializeData();
@@ -159,36 +178,97 @@ function TaskListController($scope){
 
         });
 
-        $scope.save = function(){
+    }
 
-            //console.log($scope.data);
+    $scope.save = function(){
 
-            var root = firebase.database().ref();
-            var updateData = root.child('task/' + $scope.data.id);
-            updateData.set({
+        //console.log($scope.data);
 
-                description: $scope.data.description,
-                order: 3,
-                id: $scope.data.id,
-                status: $scope.data.status,
-                priority: $scope.data.priority,
-                title: $scope.data.title
+        var root = firebase.database().ref();
+        var updateData = root.child('task/' + $scope.data.id);
+        updateData.set({
 
-            });
+            description: $scope.data.description,
+            order: $scope.data.order,
+            id: $scope.data.id,
+            status: $scope.data.status,
+            priority: $scope.data.priority,
+            title: $scope.data.title
 
-            var updateLabels = root.child('task/' + $scope.data.id + '/labels');
+        });
 
-            angular.forEach($scope.data.labels, function(value){
+        var updateLabels = root.child('task/' + $scope.data.id + '/labels');
 
-                updateLabels.push(value.text);
+        angular.forEach($scope.data.labels, function(value){
 
-            });
+            updateLabels.push(value.text);
 
-            $scope.firebase();
-            $scope.initializeData();
+        });
+
+        $scope.firebase();
+        $scope.initializeData();
 
 
-        }
+    }
+
+    $scope.inProgress = function(taskID){
+
+        var root = firebase.database().ref();
+        root.child('task/' + taskID + '/status').set('on the process');
+
+        $scope.firebase();
+        $scope.initializeData();
+
+    }
+
+    $scope.completed = function(taskID){
+
+        var root = firebase.database().ref();
+        root.child('task/' + taskID + '/status').set('completed');
+
+        $scope.firebase();
+        $scope.initializeData();
+
+    }
+
+
+    /*Google Chart*/
+    $scope.myChartObject = {};
+
+    $scope.myChartObject.type = "PieChart";
+
+    $scope.inProg = [
+        {v: "In Progress"},
+        {v: 3},
+    ];
+
+    $scope.complete = [
+        {v: "Completed"},
+        {v: 3},
+    ];
+
+
+    $scope.toDo = [
+        {v: "To do"},
+        {v: 3},
+    ];
+
+    $scope.myChartObject.data = {"cols": [
+        {id: "t", label: "High", type: "string"},
+        {id: "s", label: "Low", type: "string"}
+    ], "rows": [
+        {c: $scope.toDo},
+        {c: $scope.inProg},
+        {c: $scope.complete}
+    ]};
+
+    $scope.myChartObject.options = {
+        'title': 'Task List Chart'
+    };
+
+    $scope.todoLength = function(data){
+
+        console.log(data);
 
     }
 
