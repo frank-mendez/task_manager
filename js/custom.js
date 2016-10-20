@@ -8,139 +8,115 @@ var Module = {};
 Module.Firebase = (function(){
 
     function init(){
-
-        var database = firebase.database();
-
-        database.ref('/task/').once('value').then(function(snapshot) {
-
-            var tasks = snapshot.val();
-
-            console.log(tasks);
-
-        });
-
-
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyC1mir7krdyGHx5jqE8yqWLLCL_4cAAQNg",
+            authDomain: "real-time-task-manager.firebaseapp.com",
+            databaseURL: "https://real-time-task-manager.firebaseio.com",
+            storageBucket: "real-time-task-manager.appspot.com",
+            messagingSenderId: "1058531001319"
+        };
+        firebase.initializeApp(config);
     }
 
 
-    function create() {
+    function authState(){
 
-        //var database = firebase.database();
-
-        var add = firebase.database().ref('task').set({
-
-            counter: 5,
-            task: {
-                1: {
-                    description: 'Science Homework',
-                    id: 1,
-                    labels: {
-                        1: 'test',
-                        2: 'test 2'
-                    },
-                    order: 1,
-                    status: 'to-do',
-                    priority: 'low',
-                    title: 'Homework'
-                },
-                2: {
-                    description: 'Math Project',
-                    id: 2,
-                    labels: {
-                        1: 'test',
-                        2: 'test 2'
-                    },
-                    order: 2,
-                    status: 'to-do',
-                    priority: 'high',
-                    title: 'Project'
-                },
-                3:{
-                    description: 'Weekend',
-                    id: 3,
-                    labels: {
-                        1: 'Bathroom',
-                        2: 'Kictchen',
-                        3: 'Bedroom'
-                    },
-                    order: 3,
-                    status: 'completed',
-                    priority: 'high',
-                    title: 'Household Chores'
-                },
-                4:{
-                    description: 'Exam for English',
-                    id: 4,
-                    labels: {
-                        1: 'Chapter 1',
-                        2: 'Chapter 2'
-                    },
-                    order: 4,
-                    status: 'on the process',
-                    priority: 'high',
-                    title: 'Study Exam'
-                },
-                5:{
-                    description: 'Family Gathering',
-                    id: 5,
-                    labels: {
-                        1: 'test',
-                        2: 'test 2'
-                    },
-                    order: 5,
-                    status: 'to-do',
-                    priority: 'low',
-                    title: 'Dinner Party'
+        var uiConfig = {
+            'callbacks': {
+                // Called when the user has been successfully signed in.
+                'signInSuccess': function(user, credential, redirectUrl) {
+                    handleSignedInUser(user);
+                    // Do not redirect.
+                    return false;
                 }
+            },
+            'signInFlow': 'popup',
+            'signInOptions': [
+                // TODO(developer): Remove the providers you don't need for your app.
+                {
+                    provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+                    scopes: ['https://www.googleapis.com/auth/plus.login']
+                },
+            ],
+            // Terms of service url.
+            'tosUrl': 'https://www.google.com',
+        };
+
+        // Initialize the FirebaseUI Widget using Firebase.
+        var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+        var currentUid = null;
+
+        var handleSignedInUser = function(user) {
+
+            console.log('user is sign in');
+
+            currentUid = user.uid;
+            document.getElementById('user-signed-in').style.display = 'block';
+            document.getElementByClass('user-signed-out').style.display = 'none';
+            document.getElementById('name').textContent = user.displayName;
+            document.getElementById('email').textContent = user.email;
+            if (user.photoURL){
+                document.getElementById('photo').src = user.photoURL;
+                document.getElementById('photo').style.display = 'block';
+            } else {
+                document.getElementById('photo').style.display = 'none';
+            }
+        };
+
+        /**
+         * Displays the UI for a signed out user.
+         */
+        var handleSignedOutUser = function() {
+
+            console.log('user is sign out');
+
+            document.getElementById('user-signed-in').style.display = 'none';
+            document.getElementById('user-signed-out').style.display = 'block';
+            // The start method will wait until the DOM is loaded.
+            ui.start('#firebaseui-auth-container', uiConfig);
+        };
+
+
+        firebase.auth().onAuthStateChanged(function(user) {
+
+            if (user && user.uid == currentUid) {
+                return;
             }
 
+            user ? handleSignedInUser(user) : handleSignedOutUser();
+
+
+        }, function(error) {
+            console.log(error);
         });
 
-        return add;
 
     }
 
-    //test for Firebase Unique ID
-    function _push(){
+    function signOut(){
 
-        var rootRef = firebase.database().ref();
-        var storesRef = rootRef.child('task');
-        var newStoreRef = storesRef.push();
-        newStoreRef.set({
-            description: 'Weekend',
-            order: 3,
-            status: 'completed',
-            priority: 'high',
-            title: 'Household Chores'
+        $('.sign-out').on('click', function(){
+
+            firebase.auth().signOut();
+
         });
-
-        var newID = newStoreRef.getKey();
-
-        var label = rootRef.child('task/' + newID + '/labels');
-        label.push('test 1');
-        label.push('test 2');
-
-        var insertID = rootRef.child('task/' + newID + '/id' );
-        insertID.set(newID);
-
-
-        //console.log(newID);
 
     }
 
     return{
         init: init,
-        create: create,
-        _push: _push
+        authState: authState,
+        signOut: signOut
     }
 
 })();
 
-
 $(document).ready(function(){
 
-    //Module.Firebase.create();
-    //Module.Firebase._push();
-    $('[data-toggle="popover"]').popover()
+    Module.Firebase.init();
+    /*Module.Firebase.authState();
+    Module.Firebase.signOut();*/
 
 });
