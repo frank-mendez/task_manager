@@ -111,7 +111,7 @@
                                               data-toggle="collapse"
                                               data-target="#to-do-{{ data.id }}" aria-expanded="false" aria-controls="collapseExample">
                                         </span>
-                                        <span class="btn btn-settings glyphicon glyphicon-trash"></span>
+                                        <span ng-click="delete(data.id)" class="btn btn-settings glyphicon glyphicon-trash"></span>
                                     </p>
                                     <div class="collapse" id="to-do-{{ data.id }}">
                                         <div class="well">
@@ -154,7 +154,7 @@
                                               data-toggle="collapse"
                                               data-target="#in-progress-{{ data.id }}" aria-expanded="false" aria-controls="collapseExample">
                                         </span>
-                                        <span class="btn btn-settings glyphicon glyphicon-trash"></span>
+                                        <span ng-click="delete(data.id)" class="btn btn-settings glyphicon glyphicon-trash"></span>
                                     </p>
                                     <div class="collapse" id="in-progress-{{ data.id }}">
                                         <div class="well">
@@ -195,7 +195,7 @@
                                               data-toggle="collapse"
                                               data-target="#completed-{{ data.id }}" aria-expanded="false" aria-controls="collapseExample">
                                         </span>
-                                        <span class="btn btn-settings glyphicon glyphicon-trash"></span>
+                                        <span ng-click="delete(data.id)" class="btn btn-settings glyphicon glyphicon-trash"></span>
                                     </p>
                                     <div class="collapse" id="completed-{{ data.id }}">
                                         <div class="well">
@@ -303,9 +303,9 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <!--<div class="row">
                     <div google-chart chart="myChartObject" style="height:600px; width:100%;"></div>
-                </div>
+                </div>-->
 
             </div>
         </div>
