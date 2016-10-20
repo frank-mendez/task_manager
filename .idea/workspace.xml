@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b1cafaae-5bc9-4251-9e3f-724cdd525d0a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/custom.js" afterPath="$PROJECT_DIR$/js/custom.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/login.html" afterPath="$PROJECT_DIR$/views/login.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/task-view.html" afterPath="$PROJECT_DIR$/views/task-view.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/task.html" afterPath="$PROJECT_DIR$/views/task.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/routes.js" afterPath="$PROJECT_DIR$/js/routes.js" />
     </list>
     <ignored path="task_manager.iws" />
@@ -71,6 +71,16 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="login.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/login.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="42" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
@@ -106,7 +116,7 @@
         </entry>
       </file>
       <file leaf-file-name="task-view.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/task-view.html">
+        <entry file="file://$PROJECT_DIR$/views/task-view.html">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-112.78788">
               <caret line="301" column="30" selection-start-line="301" selection-start-column="30" selection-end-line="301" selection-end-column="30" />
@@ -116,7 +126,7 @@
         </entry>
       </file>
       <file leaf-file-name="task.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/task.html">
+        <entry file="file://$PROJECT_DIR$/views/task.html">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-0.0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -159,10 +169,10 @@
         <option value="$PROJECT_DIR$/js/taskListController.js" />
         <option value="$PROJECT_DIR$/task-view.html" />
         <option value="$PROJECT_DIR$/login.html" />
-        <option value="$PROJECT_DIR$/js/routes.js" />
         <option value="$PROJECT_DIR$/js/custom.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/loginController.js" />
+        <option value="$PROJECT_DIR$/js/routes.js" />
       </list>
     </option>
   </component>
@@ -224,20 +234,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="task_manager" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
@@ -250,6 +246,11 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\firebase\public\views" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
@@ -738,29 +739,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/task-view.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-112.78788">
-          <caret line="301" column="30" selection-start-line="301" selection-start-column="30" selection-end-line="301" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/task.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -814,6 +792,30 @@
           <folding>
             <element signature="e#0#42#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/task.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/task-view.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-112.78788">
+          <caret line="301" column="30" selection-start-line="301" selection-start-column="30" selection-end-line="301" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>

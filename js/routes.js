@@ -10,15 +10,15 @@
 
             $routeProvider
                 .when('/',{
-                    templateUrl: 'task-view.html',
+                    templateUrl: 'views/task-view.html',
                     controller: 'TaskListController as taskList'
                 })
                 .when('/task',{
-                    templateUrl: 'task.html',
+                    templateUrl: 'views/task.html',
                     controller: 'TaskListController as taskList'
                 })
                 .when('/login',{
-                    templateUrl: 'login.html'
+                    templateUrl: 'views/login.html'
                 });
 
         });
