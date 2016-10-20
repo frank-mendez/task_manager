@@ -19,10 +19,34 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <!--FirebaseUI for Authentication-->
+    <script src="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.css" />
+
+
 </head>
 <body>
 
-<nav class="navbar navbar-default">
+<!--Facebook App-->
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '1580337268940671',
+            xfbml      : true,
+            version    : 'v2.8'
+        });
+    };
+
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<nav class="sign-out navbar navbar-default">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -32,7 +56,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand">REAL TIME TASK MANAGER (Sandbox Problem for Frontend)</a>
+            <a class="navbar-brand" href="#">REAL TIME TASK MANAGER</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -40,10 +64,14 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></a>
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></a>
                     <ul class="dropdown-menu">
+                        <li><span id="username"></span></li>
                         <li><a href="#/">Theme 1</a></li>
                         <li><a href="#/task">Theme 2</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a class="sign-out" href=""><span class="glyphicon glyphicon-off"></span> Sign out</a></li>
                     </ul>
                 </li>
             </ul>
@@ -52,11 +80,16 @@
 </nav>
 
 
+<!--<div id="firebaseui-auth-container"></div>-->
 
 <div ng-view></div>
 
-
-
+<div
+        class="fb-like"
+        data-share="true"
+        data-width="450"
+        data-show-faces="true">
+</div>
 
 <!--Angular-->
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
@@ -71,19 +104,10 @@
 <script src="js/app.js"></script>
 <script src="js/routes.js"></script>
 <script src="js/taskListController.js"></script>
+<script src="js/loginController.js"></script>
 <!--Firebase-->
 <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
-<script>
-    // Initialize Firebase
-    var config = {
-        apiKey: "AIzaSyC1mir7krdyGHx5jqE8yqWLLCL_4cAAQNg",
-        authDomain: "real-time-task-manager.firebaseapp.com",
-        databaseURL: "https://real-time-task-manager.firebaseio.com",
-        storageBucket: "real-time-task-manager.appspot.com",
-        messagingSenderId: "1058531001319"
-    };
-    firebase.initializeApp(config);
-</script>
+
 <!-- AngularFire -->
 <script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
