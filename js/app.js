@@ -2,10 +2,16 @@
  * Created by frank on 12/10/2016.
  */
 
-//set the module
-angular.module('taskManager', [
-    'googlechart'
-]);
+(function() {
+    'use strict';
+
+    angular.module('taskManager', [
+        'ngRoute',
+        'googlechart'
+    ]);
+
+
+})();
 
 angular
     .module('taskManager')
