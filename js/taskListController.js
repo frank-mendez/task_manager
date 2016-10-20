@@ -230,6 +230,16 @@
 
         }
 
+        $scope.delete = function(taskID){
+
+            var root = firebase.database().ref();
+            var deleteData = root.child('task/' + taskID);
+            deleteData.remove();
+
+            $scope.firebase();
+            $scope.initializeData();
+
+        }
 
         /*Google Chart*/
         $scope.myChartObject = {};
