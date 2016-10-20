@@ -16,6 +16,9 @@
                 .when('/task',{
                     templateUrl: 'task.html',
                     controller: 'TaskListController as taskList'
+                })
+                .when('/login',{
+                    templateUrl: 'login.html'
                 });
 
         });
