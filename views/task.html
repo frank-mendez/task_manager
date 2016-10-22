@@ -1,52 +1,159 @@
+<link href="css/sidebar.css" rel="stylesheet">
+<nav class="navbar navbar-default sidebar" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+            <ul class="nav navbar-nav" style="width: width: 100%;">
+                <li class=""><a href="#/task">Home<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">Add Task <span class="caret"></span>
+                        <span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-plus"></span></a>
+                    <ul class="dropdown-menu forAnimate" role="menu">
+                        <li><a href="#">To do</a></li>
+                        <li><a href="#">In Progress</a></li>
+                        <li><a href="#">Completed</a></li>
+                    </ul>
+                </li>
+                <li ><a href="#/all-list">All List<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-th-list"></span></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 <div class="container-fluid">
     <div class="row">
 
         <div class="col-sm-3">
-            <div class="panel panel-success">
+            <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title">To do</h3>
+                    <h3 class="panel-title">To do List
+                        <span>{{ todoLength(filteredTodo.length) }}</span>
+                                <span class="pull-right">
+                                     {{ filteredTodo.length }}
+                                </span>
+                    </h3>
                 </div>
-                <div class="panel-body">
-
-                    <div class="panel panel-default">
+                <div class="panel-body panel-to-do">
+                    <div class="panel panel-default" ng-repeat="data in taskList.items| toArray | orderBy:'-id' | filter: status.todo as filteredTodo">
                         <div class="panel-body">
-
+                            <p><b><i>{{ data.title }}</i></b></p>
+                            <p>
+                                <span ng-click="inProgress(data.id)" class="label label-primary">Move to In Progress</span>
+                                <span ng-click="update(data.id)" class="btn btn-settings glyphicon glyphicon-pencil"></span>
+                                        <span class="btn btn-settings glyphicon glyphicon-list"
+                                              data-toggle="collapse"
+                                              data-target="#to-do-{{ data.id }}" aria-expanded="false" aria-controls="collapseExample">
+                                        </span>
+                                <span ng-click="delete(data.id)" class="btn btn-settings glyphicon glyphicon-trash"></span>
+                            </p>
+                            <div class="collapse" id="to-do-{{ data.id }}">
+                                <div class="well">
+                                    <p><b>Priority </b>{{ data.priority }}</p>
+                                    <p><b>Description </b>{{ data.description }}</p>
+                                    <p>
+                                        <b>Labels:</b>
+                                    <ul>
+                                        <li ng-repeat="label in data.labels"> {{ label }} </li>
+                                    </ul>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
+                        <p class="panel-small-info"><i><span class="glyphicon glyphicon-time"></span> Added: 8 hours ago</i></p>
                     </div>
-                    <a href=""><span class="glyphicon glyphicon-plus"></span> Add</a>
+
                 </div>
             </div>
         </div>
 
         <div class="col-sm-3">
-            <div class="panel panel-success">
+            <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title">In progress</h3>
+                    <h3 class="panel-title">In Progress
+                        <input type="hidden" name="inprog_length" ng-model="taskLength.inprog_length" ng-value="{{ filteredInProgress.length }}" />
+                                <span class="pull-right">
+                                    {{ filteredInProgress.length }}
+                                </span>
+                    </h3>
                 </div>
-                <div class="panel-body">
-                    <div class="panel panel-default">
+                <div class="panel-body panel-in-progress">
+                    <div class="panel panel-default"
+                         ng-repeat="data in taskList.items | toArray | orderBy:'-id' | filter: status.inProgress as filteredInProgress">
                         <div class="panel-body">
-
+                            <p><b><i>{{ data.title }}</i></b></p>
+                            <p>
+                                <span ng-click="completed(data.id)" class="label label-success">Mark as Completed</span>
+                                <span ng-click="update(data.id)" class="btn btn-settings glyphicon glyphicon-pencil"></span>
+                                        <span class="btn btn-settings glyphicon glyphicon-list"
+                                              data-toggle="collapse"
+                                              data-target="#in-progress-{{ data.id }}" aria-expanded="false" aria-controls="collapseExample">
+                                        </span>
+                                <span ng-click="delete(data.id)" class="btn btn-settings glyphicon glyphicon-trash"></span>
+                            </p>
+                            <div class="collapse" id="in-progress-{{ data.id }}">
+                                <div class="well">
+                                    <p><b>Priority </b>{{ data.priority }}</p>
+                                    <p><b>Description </b>{{ data.description }}</p>
+                                    <p>
+                                        <b>Labels:</b>
+                                    <ul>
+                                        <li ng-repeat="label in data.labels"> {{ label }} </li>
+                                    </ul>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
+                        <p class="panel-small-info"><i><span class="glyphicon glyphicon-time"></span> Added: 2 days ago</i></p>
                     </div>
-                    <a href=""><span class="glyphicon glyphicon-plus"></span> Add</a>
                 </div>
             </div>
         </div>
 
         <div class="col-sm-3">
-            <div class="panel panel-success">
+            <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Completed</h3>
+                    <h3 class="panel-title">Completed
+                        <input type="hidden" name="complete_length" ng-model="taskLength.complete_length" ng-value="{{ filteredCompleted.length }}" />
+                                <span class="pull-right">
+                                    {{ filteredCompleted.length }}
+                                </span>
+                    </h3>
                 </div>
-                <div class="panel-body">
-                    <div class="panel panel-default">
+                <div class="panel-body panel-completed">
+                    <div class="panel panel-default"
+                         ng-repeat="data in taskList.items | toArray | orderBy:'-id' | filter: status.completed as filteredCompleted">
                         <div class="panel-body">
-
+                            <p><b><i>{{ data.title }}</i></b></p>
+                            <p>
+                                <span ng-click="update(data.id)" class="btn btn-settings glyphicon glyphicon-pencil"></span>
+                                        <span class="btn btn-settings glyphicon glyphicon-list"
+                                              data-toggle="collapse"
+                                              data-target="#completed-{{ data.id }}" aria-expanded="false" aria-controls="collapseExample">
+                                        </span>
+                                <span ng-click="delete(data.id)" class="btn btn-settings glyphicon glyphicon-trash"></span>
+                            </p>
+                            <div class="collapse" id="completed-{{ data.id }}">
+                                <div class="well">
+                                    <p><b>Priority </b>{{ data.priority }}</p>
+                                    <p><b>Description </b>{{ data.description }}</p>
+                                    <p>
+                                        <b>Labels:</b>
+                                    <ul>
+                                        <li ng-repeat="label in data.labels"> {{ label }} </li>
+                                    </ul>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
+                        <p class="panel-small-info"><i><span class="glyphicon glyphicon-time"></span> Added: 10 mins ago</i></p>
                     </div>
-                    <a href=""><span class="glyphicon glyphicon-plus"></span> Add</a>
                 </div>
             </div>
         </div>
