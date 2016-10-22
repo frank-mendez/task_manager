@@ -20,75 +20,107 @@ Module.Firebase = (function(){
     }
 
 
-    function authState(){
+    function authState() {
 
         var uiConfig = {
             'callbacks': {
                 // Called when the user has been successfully signed in.
                 'signInSuccess': function(user, credential, redirectUrl) {
-                    handleSignedInUser(user);
+                    //handleSignedInUser(user);
                     // Do not redirect.
                     return false;
                 }
             },
             'signInFlow': 'popup',
             'signInOptions': [
-                // TODO(developer): Remove the providers you don't need for your app.
-                {
-                    provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-                    scopes: ['https://www.googleapis.com/auth/plus.login']
-                },
+                // Leave the lines as is for the providers you want to offer your users.
+                firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+                firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+                firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+                firebase.auth.GithubAuthProvider.PROVIDER_ID,
+                firebase.auth.EmailAuthProvider.PROVIDER_ID
             ],
             // Terms of service url.
-            'tosUrl': 'https://www.google.com',
+            'tosUrl': 'https://console.firebase.google.com/project/real-time-task-manager/overview',
         };
 
-        // Initialize the FirebaseUI Widget using Firebase.
-        var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
-        var currentUid = null;
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                // User is signed in.
 
-        var handleSignedInUser = function(user) {
+                var displayName = user.displayName;
+                var email = user.email;
+                var emailVerified = user.emailVerified;
+                var photoURL = user.photoURL;
+                var uid = user.uid;
+                var providerData = user.providerData;
 
-            console.log('user is sign in');
+                var userDetails = {
 
-            currentUid = user.uid;
-            document.getElementById('user-signed-in').style.display = 'block';
-            document.getElementByClass('user-signed-out').style.display = 'none';
-            document.getElementById('name').textContent = user.displayName;
-            document.getElementById('email').textContent = user.email;
-            if (user.photoURL){
-                document.getElementById('photo').src = user.photoURL;
-                document.getElementById('photo').style.display = 'block';
+                    displayName: displayName,
+                    email: email,
+                    emailVerified: emailVerified,
+                    photoURL: photoURL,
+                    uid: uid,
+                    providerData: providerData
+
+                }
+
+                console.log('userDetails', userDetails);
+
+                console.log('User is signed in');
+
+                $('.login-container').css('display', 'none');
+                $('.app-container').css('display', 'block');
+
+                if(userDetails.displayName == null){
+
+                    console.log('test');
+
+                    $.each(userDetails.providerData, function(key, value){
+
+                        $.each(value, function(index, data){
+
+                            //console.log( index, data);
+                            if(index == 'displayName' ){
+                                $('.username').html(data);
+                            }
+                            if(index == 'photoURL'){
+                                $('.user-photo').attr('src', data);
+                            }
+
+                        })
+
+                    });
+
+                }else{
+
+                    $('.username').html(userDetails.displayName);
+                    $('.user-photo').attr('src', userDetails.photoURL);
+                }
+
+
+
+
             } else {
-                document.getElementById('photo').style.display = 'none';
+                // User is signed out.
+
+                console.log('User is signed out');
+
+                // Initialize the FirebaseUI Widget using Firebase.
+                var ui = new firebaseui.auth.AuthUI(firebase.auth());
+                // The start method will wait until the DOM is loaded.
+                ui.start('#firebaseui-auth-container', uiConfig);
+
+                $('.login-container').css('display', 'block');
+                $('.app-container').css('display', 'none');
+
+                document.getElementById('sign-in-status').textContent = 'Signed out';
+                document.getElementById('sign-in').textContent = 'Sign in';
+                document.getElementById('account-details').textContent = 'null';
             }
-        };
-
-        /**
-         * Displays the UI for a signed out user.
-         */
-        var handleSignedOutUser = function() {
-
-            console.log('user is sign out');
-
-            document.getElementById('user-signed-in').style.display = 'none';
-            document.getElementById('user-signed-out').style.display = 'block';
-            // The start method will wait until the DOM is loaded.
-            ui.start('#firebaseui-auth-container', uiConfig);
-        };
-
-
-        firebase.auth().onAuthStateChanged(function(user) {
-
-            if (user && user.uid == currentUid) {
-                return;
-            }
-
-            user ? handleSignedInUser(user) : handleSignedOutUser();
-
-
-        }, function(error) {
+        }, function (error) {
             console.log(error);
         });
 
@@ -97,13 +129,16 @@ Module.Firebase = (function(){
 
     function signOut(){
 
-        $('.sign-out').on('click', function(){
+        $('#sign-out').on('click', function(){
 
             firebase.auth().signOut();
+
+            location.reload();
 
         });
 
     }
+
 
     return{
         init: init,
@@ -116,7 +151,7 @@ Module.Firebase = (function(){
 $(document).ready(function(){
 
     Module.Firebase.init();
-    /*Module.Firebase.authState();
-    Module.Firebase.signOut();*/
+    Module.Firebase.authState();
+    Module.Firebase.signOut();
 
 });
