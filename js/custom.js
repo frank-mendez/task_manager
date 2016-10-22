@@ -151,7 +151,7 @@ Module.Firebase = (function(){
 $(document).ready(function(){
 
     Module.Firebase.init();
-    Module.Firebase.authState();
+    //Module.Firebase.authState();
     Module.Firebase.signOut();
 
 });
