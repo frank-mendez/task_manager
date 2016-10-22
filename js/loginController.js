@@ -9,73 +9,85 @@
         .module('taskManager')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$firebaseAuth', '$firebaseObject', '$state', 'firebaseUrl'];
-    function LoginController ($firebaseAuth, $firebaseObject, $state) {
+    function LoginController () {
 
         var vm = this;
-        vm.isLoggedIn = false;
 
-        var database = firebase.databse();
-        var authObj = $firebaseAuth(database);
+         vm.auth = function(){
 
-        //initialize and get current authenticated state:
-        init();
+             var uiConfig = {
+                 'signInSuccessUrl': '/',
+                 'signInFlow': 'popup',
+                 'signInOptions': [
+                     // Leave the lines as is for the providers you want to offer your users.
+                     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+                     firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+                     firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+                     firebase.auth.GithubAuthProvider.PROVIDER_ID,
+                     firebase.auth.EmailAuthProvider.PROVIDER_ID
+                 ],
+                 // Terms of service url.
+                 'tosUrl': 'https://firebase.google.com/docs/auth/',
+             };
 
-        function init(){
-            authObj.$onAuth(authDataCallback);
-            if (authObj.$getAuth()){
-                vm.isLoggedIn  = true;
-            }
+             // Initialize the FirebaseUI Widget using Firebase.
+             var ui = new firebaseui.auth.AuthUI(firebase.auth());
+             // The start method will wait until the DOM is loaded.
+             ui.start('#firebaseui-auth-container', uiConfig);
+
+
 
         }
 
-        function authDataCallback(authData) {
-            if (authData) {
-                console.log("User " + authData.uid + " is logged in with " + authData.provider);
-                vm.isLoggedIn = true;
-                var user = $firebaseObject(ref.child('users').child(authData.uid));
-                user.$loaded().then(function () {
-                    if (user.name == undefined) {
-                        var newUser = {
-                            rooms: [],
-                            maxRooms: 5
-                        };
-                        if (authData.google) {
-                            newUser.name = authData.google.displayName;
-                        }
-                        if (authData.github) {
-                            newUser.name = authData.github.username;
-                        }
+        vm.initAuth = function(){
 
-                        user.$ref().set(newUser);
+            vm.login = true;
 
-                    }
-                });
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    // User is signed in.
 
-            } else {
-                console.log("User is logged out");
-                vm.isLoggedIn = false;
-            }
-        }
-        vm.logout = function () {
-            ref.unauth();
-            $state.go('home');
-        }
+                    console.log('User is signed in');
 
-        firebaseAuthLogin = function(provider){
-            authObj.$authWithOAuthPopup(provider).then(function (authData) {
-                console.log("Authenticated successfully with provider " + provider +" with payload:", authData);
-            }).catch(function (error) {
-                console.error("Authentication failed:", error);
+                    vm.login = false;
+                    vm.app = true;
+
+                    var displayName = user.displayName;
+                    var email = user.email;
+                    var emailVerified = user.emailVerified;
+                    var photoURL = user.photoURL;
+                    var uid = user.uid;
+                    var providerData = user.providerData;
+                    user.getToken().then(function(accessToken) {
+                        document.getElementById('sign-in-status').textContent = 'Signed in';
+                        document.getElementById('sign-in').textContent = 'Sign out';
+                        document.getElementById('account-details').textContent = JSON.stringify({
+                            displayName: displayName,
+                            email: email,
+                            emailVerified: emailVerified,
+                            photoURL: photoURL,
+                            uid: uid,
+                            accessToken: accessToken,
+                            providerData: providerData
+                        }, null, '  ');
+                    });
+                } else {
+                    // User is signed out.
+
+                    console.log('User is signed out');
+
+                    vm.app = true;
+
+                    vm.auth();
+
+                    document.getElementById('sign-in-status').textContent = 'Signed out';
+                    document.getElementById('sign-in').textContent = 'Sign in';
+                    document.getElementById('account-details').textContent = 'null';
+                }
+            }, function(error) {
+                console.log(error);
             });
 
-        }
-        vm.googleLogin = function () {
-            firebaseAuthLogin('google');
-        }
-
-        vm.githubLogin = function () {
-            firebaseAuthLogin('github');
         }
 
     }
