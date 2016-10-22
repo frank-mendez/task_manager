@@ -11,14 +11,18 @@
             $routeProvider
                 .when('/',{
                     templateUrl: 'views/task-view.html',
-                    controller: 'TaskListController as taskList'
+                    controller: 'TaskListController as taskList',
+                    resolve: {
+
+                    }
                 })
                 .when('/task',{
                     templateUrl: 'views/task.html',
                     controller: 'TaskListController as taskList'
                 })
-                .when('/login',{
-                    templateUrl: 'views/login.html'
+                .when('/all-list',{
+                    templateUrl: 'views/all-list.html',
+                    controller: 'TaskListController as taskList'
                 });
 
         });
