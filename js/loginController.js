@@ -9,48 +9,36 @@
         .module('taskManager')
         .controller('LoginController', LoginController);
 
-    function LoginController () {
+    function LoginController ($scope) {
 
-        var vm = this;
+        $scope.authentication = function(){
 
-         vm.auth = function(){
+            var uiConfig = {
+                'callbacks': {
+                    // Called when the user has been successfully signed in.
+                    'signInSuccess': function(user, credential, redirectUrl) {
+                        //handleSignedInUser(user);
+                        // Do not redirect.
+                        return false;
+                    }
+                },
+                'signInFlow': 'popup',
+                'signInOptions': [
+                    // Leave the lines as is for the providers you want to offer your users.
+                    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+                    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+                    firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+                    firebase.auth.GithubAuthProvider.PROVIDER_ID,
+                    firebase.auth.EmailAuthProvider.PROVIDER_ID
+                ],
+                // Terms of service url.
+                'tosUrl': 'https://console.firebase.google.com/project/real-time-task-manager/overview',
+            };
 
-             var uiConfig = {
-                 'signInSuccessUrl': '/',
-                 'signInFlow': 'popup',
-                 'signInOptions': [
-                     // Leave the lines as is for the providers you want to offer your users.
-                     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-                     firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-                     firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-                     firebase.auth.GithubAuthProvider.PROVIDER_ID,
-                     firebase.auth.EmailAuthProvider.PROVIDER_ID
-                 ],
-                 // Terms of service url.
-                 'tosUrl': 'https://firebase.google.com/docs/auth/',
-             };
 
-             // Initialize the FirebaseUI Widget using Firebase.
-             var ui = new firebaseui.auth.AuthUI(firebase.auth());
-             // The start method will wait until the DOM is loaded.
-             ui.start('#firebaseui-auth-container', uiConfig);
-
-
-
-        }
-
-        vm.initAuth = function(){
-
-            vm.login = true;
-
-            firebase.auth().onAuthStateChanged(function(user) {
+            firebase.auth().onAuthStateChanged(function (user) {
                 if (user) {
                     // User is signed in.
-
-                    console.log('User is signed in');
-
-                    vm.login = false;
-                    vm.app = true;
 
                     var displayName = user.displayName;
                     var email = user.email;
@@ -58,33 +46,72 @@
                     var photoURL = user.photoURL;
                     var uid = user.uid;
                     var providerData = user.providerData;
-                    user.getToken().then(function(accessToken) {
-                        document.getElementById('sign-in-status').textContent = 'Signed in';
-                        document.getElementById('sign-in').textContent = 'Sign out';
-                        document.getElementById('account-details').textContent = JSON.stringify({
-                            displayName: displayName,
-                            email: email,
-                            emailVerified: emailVerified,
-                            photoURL: photoURL,
-                            uid: uid,
-                            accessToken: accessToken,
-                            providerData: providerData
-                        }, null, '  ');
-                    });
+
+                    var userDetails = {
+
+                        displayName: displayName,
+                        email: email,
+                        emailVerified: emailVerified,
+                        photoURL: photoURL,
+                        uid: uid,
+                        providerData: providerData
+
+                    }
+
+                    console.log('userDetails', userDetails);
+
+                    console.log('User is signed in');
+
+                    $('.login-container').css('display', 'none');
+                    $('.app-container').css('display', 'block');
+
+                    if(userDetails.displayName == null){
+
+                        console.log('test');
+
+                        $.each(userDetails.providerData, function(key, value){
+
+                            $.each(value, function(index, data){
+
+                                //console.log( index, data);
+                                if(index == 'displayName' ){
+                                    $('.username').html(data);
+                                }
+                                if(index == 'photoURL'){
+                                    $('.user-photo').attr('src', data);
+                                }
+
+                            })
+
+                        });
+
+                    }else{
+
+                        $('.username').html(userDetails.displayName);
+                        $('.user-photo').attr('src', userDetails.photoURL);
+                    }
+
+
+
+
                 } else {
                     // User is signed out.
 
                     console.log('User is signed out');
 
-                    vm.app = true;
+                    // Initialize the FirebaseUI Widget using Firebase.
+                    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+                    // The start method will wait until the DOM is loaded.
+                    ui.start('#firebaseui-auth-container', uiConfig);
 
-                    vm.auth();
+                    $('.login-container').css('display', 'block');
+                    $('.app-container').css('display', 'none');
 
                     document.getElementById('sign-in-status').textContent = 'Signed out';
                     document.getElementById('sign-in').textContent = 'Sign in';
                     document.getElementById('account-details').textContent = 'null';
                 }
-            }, function(error) {
+            }, function (error) {
                 console.log(error);
             });
 
