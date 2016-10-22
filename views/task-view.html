@@ -1,4 +1,4 @@
-<div class="col-md-12">
+<div class="col-md-12" ng-init="authentication()">
     <div class="panel panel-success">
 
         <div class="panel-heading">
@@ -8,10 +8,14 @@
             <div class="col-sm-9">
                 <div class="col-sm-12">
 
+
+                    <p></p>
+
                     <div class="panel {{ panelColor }}">
                         <div class="panel-heading">
                             <h3 class="panel-title">{{ formTitle }}</h3>
                         </div>
+
 
                         <form class="form-horizontal" action="" name="task_form" novalidate ng-submit="testSubmit()">
 
@@ -126,7 +130,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p class="panel-small-info"><i><span class="glyphicon glyphicon-time"></span> Added: 8 hours ago</i></p>
+                                <p class="panel-small-info"><i><span class="glyphicon glyphicon-user"></span> Created by: {{ data.created_by }}</i></p>
+                                <p class="panel-small-info"><i><span class="glyphicon glyphicon-user"></span> Modified by: {{ data.modified_by }}</i></p>
+                                <p class="panel-small-info"><i><span class="glyphicon glyphicon-time"></span> Added: {{ data.date_added }}</i></p>
                             </div>
 
                         </div>
@@ -169,7 +175,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p class="panel-small-info"><i><span class="glyphicon glyphicon-time"></span> Added: 2 days ago</i></p>
+                                <input type="hidden" ng-model="data.created_by" />
+                                <input type="hidden" ng-model="data.date_added" />
+                                <p class="panel-small-info"><i><span class="glyphicon glyphicon-user"></span> Created by: {{ data.created_by }}</i></p>
+                                <p class="panel-small-info"><i><span class="glyphicon glyphicon-user"></span> Modified by: {{ data.modified_by }}</i></p>
+                                <p class="panel-small-info"><i><span class="glyphicon glyphicon-time"></span> Added: {{ data.date_added }}</i></p>
+                                <p class="panel-small-info"><i><span class="glyphicon glyphicon-time"></span> Date Modified: {{ data.date_modified }}</i></p>
                             </div>
                         </div>
                     </div>
@@ -210,7 +221,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p class="panel-small-info"><i><span class="glyphicon glyphicon-time"></span> Added: 10 mins ago</i></p>
+                                <input type="hidden" ng-model="data.created_by" />
+                                <input type="hidden" ng-model="data.date_added" />
+                                <p class="panel-small-info"><i><span class="glyphicon glyphicon-user"></span> Created by: {{ data.created_by }}</i></p>
+                                <p class="panel-small-info"><i><span class="glyphicon glyphicon-user"></span> Modified by: {{ data.modified_by }}</i></p>
+                                <p class="panel-small-info"><i><span class="glyphicon glyphicon-time"></span> Added: {{ data.date_added }}</i></p>
+                                <p class="panel-small-info"><i><span class="glyphicon glyphicon-time"></span> Date Modified: {{ data.date_modified }}</i></p>
                             </div>
                         </div>
                     </div>
