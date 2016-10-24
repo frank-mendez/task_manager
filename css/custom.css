@@ -17,7 +17,7 @@
 }
 
 .panel-small-info{
-    font-size:8px;
+    font-size:10px;
     padding-left:7px;
 }
 
@@ -46,7 +46,7 @@
 body,html{
     height: 100%;
     background: url("../images/bg.jpg");
-    font-size:12px !important;
+    font-family: 'Josefin Sans', sans-serif !important;
 }
 
 .navbar {
