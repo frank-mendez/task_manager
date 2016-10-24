@@ -46,11 +46,10 @@
 body,html{
     height: 100%;
     background: url("../images/bg.jpg");
-    font-family: 'Josefin Sans', sans-serif !important;
+    font-family: 'Raleway', sans-serif; !important;
 }
 
 .navbar {
      border-radius: 0px !important;
 }
-
 
