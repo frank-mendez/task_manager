@@ -63,12 +63,24 @@
                 inProgress: 'on the process'
             }
 
+
             $scope.panelColor = 'panel-info';
+            $scope.addCompleted = true;
+            $scope.addToDo = true;
+            $scope.addInProgress = true;
+
+            var date = new Date();
+            $scope.FromDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
 
         }
 
         $scope.addLabel = function(){
+
             $scope.data.labels.push({
+                text:''
+            });
+
+            $scope.todo.labels.push({
                 text:''
             });
         };
@@ -101,9 +113,74 @@
         $scope.initializeData();
         $scope.firebase();
 
+        $scope.addTodoTask = function(){
 
-        var date = new Date();
-        $scope.FromDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+            $scope.addToDo = false;
+
+            $scope.todo = {
+                priority: 'low',
+                title: ' '
+            };
+
+            $scope.todo.labels = [
+                {
+                    text:''
+                }
+            ];
+
+
+        }
+
+        $scope.addInProgressTask = function(){
+            $scope.addInProgress = false;
+        }
+
+        $scope.addCompletedTask = function(){
+            $scope.addCompleted = false;
+        }
+
+        $scope.submitToDo = function() {
+
+            console.log($scope.todo);
+
+            var counter = $scope.counter + 1;
+
+            var rootRef = firebase.database().ref();
+            var storesRef = rootRef.child('task');
+            var newStoreRef = storesRef.push();
+            newStoreRef.set({
+                description: $scope.todo.description,
+                order: counter,
+                status: 'to-do',
+                priority: $scope.todo.priority,
+                title: $scope.todo.title,
+                created_by: $scope.username,
+                modified_by: $scope.username,
+                date_added: $scope.FromDate,
+                date_modified: $scope.FromDate
+            });
+
+            var newID = newStoreRef.getKey();
+
+            var label = rootRef.child('task/' + newID + '/labels');
+
+            angular.forEach($scope.todo.labels, function(value){
+
+                label.push(value.text);
+
+            });
+
+            var insertID = rootRef.child('task/' + newID + '/id' );
+            insertID.set(newID);
+
+            var rootCounter = rootRef.child('counter');
+            rootCounter.set(counter);
+
+            $scope.firebase();
+            $scope.initializeData();
+
+        }
+
 
         $scope.submit = function(){
 
@@ -336,8 +413,14 @@
                                 if(index == 'displayName' ){
                                     $('.username').html(data);
                                 }
+
                                 if(index == 'photoURL'){
                                     $('.user-photo').attr('src', data);
+
+                                    if(data == null){
+                                        $('.user-photo').attr('src', 'images/user.jpg');
+                                    }
+
                                 }
 
                             })
@@ -348,6 +431,10 @@
 
                         $('.username').html(userDetails.displayName);
                         $('.user-photo').attr('src', userDetails.photoURL);
+
+                        if(userDetails.photoURL == null){
+                            $('.user-photo').attr('src', 'images/user.jpg');
+                        }
                     }
 
 
