@@ -1,4 +1,5 @@
 <link href="css/sidebar.css" rel="stylesheet">
+<link href="css/theme2.css" rel="stylesheet">
 <nav class="navbar navbar-default sidebar" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -10,15 +11,19 @@
             </button>
         </div>
         <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+            <div class="profile">
+                <img  class="img-responsive img-circle user-photo" width="50" height="50" src="" alt="">
+                <span class="username user-theme2"></span>
+            </div>
             <ul class="nav navbar-nav" style="width: 100%;">
                 <li class=""><a href="#/task">Home<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown">Add Task <span class="caret"></span>
                         <span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-plus"></span></a>
                     <ul class="dropdown-menu forAnimate" role="menu">
-                        <li><a href="#">To do</a></li>
-                        <li><a href="#">In Progress</a></li>
-                        <li><a href="#">Completed</a></li>
+                        <li><a ng-click="addTodoTask()">To do</a></li>
+                        <li><a ng-click="addInProgressTask()">In Progress</a></li>
+                        <li><a ng-click="addCompletedTask()">Completed</a></li>
                     </ul>
                 </li>
                 <li ><a href="#/all-list">All List<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-th-list"></span></a></li>
@@ -41,16 +46,69 @@
                     </h3>
                 </div>
                 <div class="panel-body panel-to-do">
+
+                    <div ng-hide="addToDo" class="panel panel-default">
+                        <div class="panel-body">
+                            <form action="" name="to-do-form" class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <input ng-model="todo.title" type="text" class="form-control input-sm" placeholder="Title">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-sm-12"><b>Status</b></label>
+                                    <div class="col-sm-12">
+                                        <select ng-model="todo.priority" name="" ng-model="data.priority" id="" class="form-control input-sm">
+                                            <option value="high">High</option>
+                                            <option value="low">Low</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-12 col-md-12" for=""><b>Description</b></label>
+                                    <div class="col-sm-12 col-md-12">
+                                        <textarea name="" ng-model="todo.description" id="" class="form-control input-sm"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="c col-sm-12 col-md-12" for=""><b>Label</b></label>
+                                </div>
+                                <div class="form-group" ng-repeat="label in todo.labels">
+                                    <div class="col-sm-12 col-md-12">
+                                        <input type="text" name="label" ng-model="label.text" required class="form-control input-sm" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-md-3 col-lg-3 pull-right">
+                                        <button type="button"
+                                                ng-click="addLabel()"
+                                                class="btn btn-primary btn-block btn-sm">Add Label</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                            <button type="button"
+                                    ng-click="cancel()"
+                                    class="btn btn-default btn-sm">Cancel</button>
+                            <button type="button" ng-click="submitToDo()"
+                                    class="btn btn-success pull-right btn-sm">
+                                <span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    
+                    
                     <div class="panel panel-default" ng-repeat="data in taskList.items| toArray | orderBy:'-id' | filter: status.todo as filteredTodo">
                         <div class="panel-body">
                             <p><b><i>{{ data.title }}</i></b></p>
                             <p>
                                 <span ng-click="inProgress(data.id)" class="label label-primary">Move to In Progress</span>
                                 <span ng-click="update(data.id)" class="btn btn-settings glyphicon glyphicon-pencil"></span>
-                                        <span class="btn btn-settings glyphicon glyphicon-list"
-                                              data-toggle="collapse"
-                                              data-target="#to-do-{{ data.id }}" aria-expanded="false" aria-controls="collapseExample">
-                                        </span>
+                                <span class="btn btn-settings glyphicon glyphicon-list"
+                                      data-toggle="collapse"
+                                      data-target="#to-do-{{ data.id }}" aria-expanded="false" aria-controls="collapseExample">
+                                </span>
                                 <span ng-click="delete(data.id)" class="btn btn-settings glyphicon glyphicon-trash"></span>
                             </p>
                             <div class="collapse" id="to-do-{{ data.id }}">
@@ -70,8 +128,10 @@
                         <p class="panel-small-info"><i><span class="glyphicon glyphicon-user"></span> Modified by: {{ data.modified_by }}</i></p>
                         <p class="panel-small-info"><i><span class="glyphicon glyphicon-time"></span> Added: {{ data.date_added }}</i></p>
                     </div>
+                    
 
                 </div>
+
             </div>
         </div>
 
@@ -86,6 +146,52 @@
                     </h3>
                 </div>
                 <div class="panel-body panel-in-progress">
+                    <div ng-hide="addInProgress" class="panel panel-default">
+                        <div class="panel-body">
+                            <form action="" name="to-do-form" class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control input-sm" placeholder="Title">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-sm-12"><b>Status</b></label>
+                                    <div class="col-sm-12">
+                                        <select name="" ng-model="data.priority" id="" class="form-control input-sm">
+                                            <option value="high">High</option>
+                                            <option value="low">Low</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-12 col-md-12" for=""><b>Description</b></label>
+                                    <div class="col-sm-12 col-md-12">
+                                        <textarea name="" ng-model="data.description" id="" class="form-control input-sm"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-repeat="label in data.labels">
+                                    <label class="c col-sm-12 col-md-12" for=""><b>Label</b></label>
+                                    <div class="col-sm-12 col-md-12">
+                                        <input type="text" name="label" ng-model="label.text" required class="form-control input-sm" />
+                                        <span class="alert-danger" ng-show="task_form.label.$invalid && task_form.label.$dirty">This field is required</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-md-3 col-lg-3 pull-right">
+                                        <button type="button"
+                                                ng-click="addLabel()"
+                                                class="btn btn-primary btn-block btn-sm">Add Label</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                            <button type="button"
+                                    class="btn btn-success pull-right btn-sm">
+                                <span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
                     <div class="panel panel-default"
                          ng-repeat="data in taskList.items | toArray | orderBy:'-id' | filter: status.inProgress as filteredInProgress">
                         <div class="panel-body">
@@ -134,6 +240,52 @@
                     </h3>
                 </div>
                 <div class="panel-body panel-completed">
+                    <div ng-hide="addCompleted" class="panel panel-default">
+                        <div class="panel-body">
+                            <form action="" name="to-do-form" class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control input-sm" placeholder="Title">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-sm-12"><b>Status</b></label>
+                                    <div class="col-sm-12">
+                                        <select name="" ng-model="data.priority" id="" class="form-control input-sm">
+                                            <option value="high">High</option>
+                                            <option value="low">Low</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-12 col-md-12" for=""><b>Description</b></label>
+                                    <div class="col-sm-12 col-md-12">
+                                        <textarea name="" ng-model="data.description" id="" class="form-control input-sm"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-repeat="label in data.labels">
+                                    <label class="c col-sm-12 col-md-12" for=""><b>Label</b></label>
+                                    <div class="col-sm-12 col-md-12">
+                                        <input type="text" name="label" ng-model="label.text" required class="form-control input-sm" />
+                                        <span class="alert-danger" ng-show="task_form.label.$invalid && task_form.label.$dirty">This field is required</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-md-3 col-lg-3 pull-right">
+                                        <button type="button"
+                                                ng-click="addLabel()"
+                                                class="btn btn-primary btn-block btn-sm">Add Label</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                            <button type="button"
+                                    class="btn btn-success pull-right btn-sm">
+                                <span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
                     <div class="panel panel-default"
                          ng-repeat="data in taskList.items | toArray | orderBy:'-id' | filter: status.completed as filteredCompleted">
                         <div class="panel-body">
