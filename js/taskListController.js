@@ -149,7 +149,7 @@
                         'is3D': true,
                         'colors': ['#e74c3c', '#f1c40f', '#2ecc71'],
                         'pieSliceText': 'label',
-                        'legend': { position: 'top', alignment: 'start' },
+                        'legend': { position: 'none' },
                     };
 
 
