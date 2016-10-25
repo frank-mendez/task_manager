@@ -16,7 +16,7 @@
                 <span class="username user-theme2" style="margin-left:15px;"></span>
             </div>
             <ul class="nav navbar-nav" style="width: 100%;">
-                <li class=""><a href="#/task">Home<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
+                <li class=""><a href="#/">Home<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
                 <li class="dropdown" style="cursor:pointer;">
                     <a class="dropdown-toggle" data-toggle="dropdown">Add Task <span class="caret"></span>
                         <span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-plus"></span></a>
@@ -108,7 +108,10 @@
                             <button type="button"
                                     ng-click="cancel()"
                                     class="btn btn-default btn-sm">Cancel</button>
-                            <button type="button" ng-click="submit()"
+                            <button type="button" ng-click="save()" ng-hide="updateTodoBtn"
+                                    class="btn btn-warning pull-right btn-sm">
+                                <span class="glyphicon glyphicon-floppy-disk"></span> Update</button>
+                            <button type="button" ng-click="submit()" ng-hide="addTodoBtn"
                                     class="btn btn-success pull-right btn-sm">
                                 <span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
                             <div class="clearfix"></div>
@@ -123,7 +126,7 @@
                             <p><b><i>{{ data.title }}</i></b></p>
                             <p>
                                 <span ng-click="inProgress(data.id)" class="label label-primary">Move to In Progress</span>
-                                <span ng-click="edit(data.id)" class="btn btn-settings glyphicon glyphicon-pencil"></span>
+                                <span ng-click="updateToDo(data.id)" class="btn btn-settings glyphicon glyphicon-pencil"></span>
                                 <span class="btn btn-settings glyphicon glyphicon-list"
                                       data-toggle="collapse"
                                       data-target="#to-do-{{ data.id }}" aria-expanded="false" aria-controls="collapseExample">
@@ -132,8 +135,8 @@
                             </p>
                             <div class="collapse" id="to-do-{{ data.id }}">
                                 <div class="well">
-                                    <p><b>Priority </b>{{ data.priority }}</p>
-                                    <p><b>Description </b>{{ data.description }}</p>
+                                    <p><b>Priority: </b>{{ data.priority }}</p>
+                                    <p><b>Description: </b>{{ data.description }}</p>
                                     <p>
                                         <b>Labels:</b>
                                     <ul>
@@ -184,7 +187,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class=" col-sm-12 col-md-12" for=""><b>Status</b></label>
+                                    <label class="col-sm-12 col-md-12" for=""><b>Status</b></label>
                                     <div class="col-sm-12 col-md-12">
                                         <select name="" ng-model="data.status" class="form-control input-sm">
                                             <option selected="selected" value="to-do">To do</option>
@@ -220,7 +223,10 @@
                             <button type="button"
                                     ng-click="cancel()"
                                     class="btn btn-default btn-sm">Cancel</button>
-                            <button type="button" ng-click="submit()"
+                            <button type="button" ng-click="save()" ng-hide="updateTodoBtn"
+                                    class="btn btn-warning pull-right btn-sm">
+                                <span class="glyphicon glyphicon-floppy-disk"></span> Update</button>
+                            <button type="button" ng-click="submit()" ng-hide="addTodoBtn"
                                     class="btn btn-success pull-right btn-sm">
                                 <span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
                             <div class="clearfix"></div>
@@ -232,7 +238,7 @@
                             <p><b><i>{{ data.title }}</i></b></p>
                             <p>
                                 <span ng-click="completed(data.id)" class="label label-success">Mark as Completed</span>
-                                <span ng-click="update(data.id)" class="btn btn-settings glyphicon glyphicon-pencil"></span>
+                                <span ng-click="updateInProgress(data.id)" class="btn btn-settings glyphicon glyphicon-pencil"></span>
                                         <span class="btn btn-settings glyphicon glyphicon-list"
                                               data-toggle="collapse"
                                               data-target="#in-progress-{{ data.id }}" aria-expanded="false" aria-controls="collapseExample">
@@ -241,8 +247,8 @@
                             </p>
                             <div class="collapse" id="in-progress-{{ data.id }}">
                                 <div class="well">
-                                    <p><b>Priority </b>{{ data.priority }}</p>
-                                    <p><b>Description </b>{{ data.description }}</p>
+                                    <p><b>Priority: </b>{{ data.priority }}</p>
+                                    <p><b>Description: </b>{{ data.description }}</p>
                                     <p>
                                         <b>Labels:</b>
                                     <ul>
@@ -293,7 +299,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class=" col-sm-12 col-md-12" for=""><b>Status</b></label>
+                                    <label class="col-sm-12 col-md-12" for=""><b>Status</b></label>
                                     <div class="col-sm-12 col-md-12">
                                         <select name="" ng-model="data.status" class="form-control input-sm">
                                             <option selected="selected" value="to-do">To do</option>
@@ -329,7 +335,10 @@
                             <button type="button"
                                     ng-click="cancel()"
                                     class="btn btn-default btn-sm">Cancel</button>
-                            <button type="button" ng-click="submit()"
+                            <button type="button" ng-click="save()" ng-hide="updateTodoBtn"
+                                    class="btn btn-warning pull-right btn-sm">
+                                <span class="glyphicon glyphicon-floppy-disk"></span> Update</button>
+                            <button type="button" ng-click="submit()" ng-hide="addTodoBtn"
                                     class="btn btn-success pull-right btn-sm">
                                 <span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
                             <div class="clearfix"></div>
@@ -340,7 +349,7 @@
                         <div class="panel-body">
                             <p><b><i>{{ data.title }}</i></b></p>
                             <p>
-                                <span ng-click="update(data.id)" class="btn btn-settings glyphicon glyphicon-pencil"></span>
+                                <span ng-click="updateCompleted(data.id)" class="btn btn-settings glyphicon glyphicon-pencil"></span>
                                         <span class="btn btn-settings glyphicon glyphicon-list"
                                               data-toggle="collapse"
                                               data-target="#completed-{{ data.id }}" aria-expanded="false" aria-controls="collapseExample">
@@ -349,8 +358,8 @@
                             </p>
                             <div class="collapse" id="completed-{{ data.id }}">
                                 <div class="well">
-                                    <p><b>Priority </b>{{ data.priority }}</p>
-                                    <p><b>Description </b>{{ data.description }}</p>
+                                    <p><b>Priority: </b>{{ data.priority }}</p>
+                                    <p><b>Description: </b>{{ data.description }}</p>
                                     <p>
                                         <b>Labels:</b>
                                     <ul>
