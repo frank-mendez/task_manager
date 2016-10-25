@@ -9,14 +9,14 @@
         .config(function($routeProvider) {
 
             $routeProvider
-                .when('/',{
+                .when('/task',{
                     templateUrl: 'views/task-view.html',
                     controller: 'TaskListController as taskList',
                     resolve: {
 
                     }
                 })
-                .when('/task',{
+                .when('/',{
                     templateUrl: 'views/task.html',
                     controller: 'TaskListController as taskList'
                 })
