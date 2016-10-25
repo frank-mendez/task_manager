@@ -79,10 +79,6 @@
             $scope.data.labels.push({
                 text:''
             });
-
-            $scope.todo.labels.push({
-                text:''
-            });
         };
 
         $scope.firebase = function(){
@@ -92,9 +88,70 @@
             database.ref('/task').once('value').then(function(snapshot) {
 
 
+                $scope.todoLengthTest = 0;
+                $scope.completedLength = 0;
+                $scope.inProgressLength = 0;
+
                 $scope.$apply(function(){
 
                     vm.items = snapshot.val();
+
+                    angular.forEach(vm.items, function(value) {
+
+                        angular.forEach(value, function(index) {
+
+                            if(index == 'to-do'){
+                                $scope.todoLengthTest++;
+                            }
+                            if(index == 'completed'){
+                                $scope.completedLength++;
+                            }if(index == 'on the process'){
+                                $scope.inProgressLength++;
+                            }
+
+                        });
+
+                    });
+
+
+                    /*Google Chart*/
+                    $scope.myChartObject = {};
+
+                    $scope.myChartObject.type = "PieChart";
+
+                    $scope.inProg = [
+                        {v: "In Progress"},
+                        {v: $scope.inProgressLength},
+                    ];
+
+
+                    $scope.toDo = [
+                        {v: "To do"},
+                        {v: $scope.todoLengthTest},
+                    ];
+
+                    $scope.complete = [
+                        {v: "Completed"},
+                        {v: $scope.completedLength},
+                    ];
+
+                    $scope.myChartObject.data = {"cols": [
+                        {id: "t", label: "High", type: "string"},
+                        {id: "s", label: "Low", type: "string"}
+                    ], "rows": [
+                        {c: $scope.toDo},
+                        {c: $scope.inProg},
+                        {c: $scope.complete}
+                    ]};
+
+                    $scope.myChartObject.options = {
+                        'title': 'Task List Chart',
+                        'is3D': true,
+                        'colors': ['#e74c3c', '#f1c40f', '#2ecc71'],
+                        'pieSliceText': 'label',
+                        'legend': { position: 'top', alignment: 'start' },
+                    };
+
 
                 })
 
@@ -114,77 +171,31 @@
         $scope.firebase();
 
         $scope.addTodoTask = function(){
-
+            $scope.data.status = 'todo';
             $scope.addToDo = false;
-
-            $scope.todo = {
-                priority: 'low',
-                title: ' '
-            };
-
-            $scope.todo.labels = [
-                {
-                    text:''
-                }
-            ];
-
+            $scope.addInProgress = true;
+            $scope.addCompleted = true;
 
         }
 
         $scope.addInProgressTask = function(){
+            $scope.data.status = 'on the process';
             $scope.addInProgress = false;
+            $scope.addToDo = true;
+            $scope.addCompleted = true;
         }
 
         $scope.addCompletedTask = function(){
+            $scope.data.status = 'completed';
             $scope.addCompleted = false;
-        }
-
-        $scope.submitToDo = function() {
-
-            console.log($scope.todo);
-
-            var counter = $scope.counter + 1;
-
-            var rootRef = firebase.database().ref();
-            var storesRef = rootRef.child('task');
-            var newStoreRef = storesRef.push();
-            newStoreRef.set({
-                description: $scope.todo.description,
-                order: counter,
-                status: 'to-do',
-                priority: $scope.todo.priority,
-                title: $scope.todo.title,
-                created_by: $scope.username,
-                modified_by: $scope.username,
-                date_added: $scope.FromDate,
-                date_modified: $scope.FromDate
-            });
-
-            var newID = newStoreRef.getKey();
-
-            var label = rootRef.child('task/' + newID + '/labels');
-
-            angular.forEach($scope.todo.labels, function(value){
-
-                label.push(value.text);
-
-            });
-
-            var insertID = rootRef.child('task/' + newID + '/id' );
-            insertID.set(newID);
-
-            var rootCounter = rootRef.child('counter');
-            rootCounter.set(counter);
-
-            $scope.firebase();
-            $scope.initializeData();
-
+            $scope.addToDo = true;
+            $scope.addInProgress = true;
         }
 
 
         $scope.submit = function(){
 
-            //console.log($scope.data.labels);
+            console.log($scope.data);
 
 
             var counter = $scope.counter + 1;
@@ -461,6 +472,8 @@
 
         }
 
+
+
         $scope.userHandler = function(user){
 
             $scope.username = '';
@@ -509,39 +522,6 @@
 
         }
 
-        /*Google Chart*/
-        $scope.myChartObject = {};
-
-        $scope.myChartObject.type = "PieChart";
-
-        $scope.inProg = [
-            {v: "In Progress"},
-            {v: 3},
-        ];
-
-        $scope.complete = [
-            {v: "Completed"},
-            {v: 3},
-        ];
-
-
-        $scope.toDo = [
-            {v: "To do"},
-            {v: 3},
-        ];
-
-        $scope.myChartObject.data = {"cols": [
-            {id: "t", label: "High", type: "string"},
-            {id: "s", label: "Low", type: "string"}
-        ], "rows": [
-            {c: $scope.toDo},
-            {c: $scope.inProg},
-            {c: $scope.complete}
-        ]};
-
-        $scope.myChartObject.options = {
-            'title': 'Task List Chart'
-        };
 
     }
 
