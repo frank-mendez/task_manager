@@ -171,14 +171,22 @@
         $scope.firebase();
 
         $scope.addTodoTask = function(){
-            $scope.data.status = 'todo';
+
+            $scope.initializeData();
+
+            $scope.data.status = 'to-do';
             $scope.addToDo = false;
             $scope.addInProgress = true;
             $scope.addCompleted = true;
+            $scope.addTodoBtn = false;
+            $scope.updateTodoBtn = true;
 
         }
 
         $scope.addInProgressTask = function(){
+
+            $scope.initializeData();
+
             $scope.data.status = 'on the process';
             $scope.addInProgress = false;
             $scope.addToDo = true;
@@ -186,6 +194,9 @@
         }
 
         $scope.addCompletedTask = function(){
+
+            $scope.initializeData();
+
             $scope.data.status = 'completed';
             $scope.addCompleted = false;
             $scope.addToDo = true;
@@ -240,6 +251,42 @@
         $scope.cancel = function(){
 
             $scope.initializeData();
+
+        }
+
+        $scope.updateToDo = function(taskID){
+            $scope.addToDo = false;
+            $scope.addInProgress = true;
+            $scope.addCompleted = true;
+            $scope.updateTodoBtn = false;
+            $scope.addTodoBtn = true;
+
+            $scope.update(taskID);
+
+        }
+
+        $scope.updateInProgress = function(taskID){
+            $scope.data.status = 'on the process';
+            $scope.addInProgress = false;
+            $scope.addToDo = true;
+            $scope.addCompleted = true;
+            $scope.updateTodoBtn = false;
+            $scope.addTodoBtn = true;
+
+            $scope.update(taskID);
+
+        }
+
+        $scope.updateCompleted = function(taskID){
+
+            $scope.data.status = 'completed';
+            $scope.addCompleted = false;
+            $scope.addToDo = true;
+            $scope.addInProgress = true;
+            $scope.updateTodoBtn = false;
+            $scope.addTodoBtn = true;
+
+            $scope.update(taskID);
 
         }
 
