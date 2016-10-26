@@ -6,6 +6,7 @@
     'use strict';
 
     angular.module('taskManager', [
+        'dragularModule',
         'ngRoute',
         'googlechart'
     ]);
