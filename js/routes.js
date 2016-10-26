@@ -12,9 +12,6 @@
                 .when('/task',{
                     templateUrl: 'views/task-view.html',
                     controller: 'TaskListController as taskList',
-                    resolve: {
-
-                    }
                 })
                 .when('/',{
                     templateUrl: 'views/task.html',
@@ -23,6 +20,10 @@
                 .when('/all-list',{
                     templateUrl: 'views/all-list.html',
                     controller: 'TaskListController as taskList'
+                })
+                .when('/theme3',{
+                    templateUrl: 'views/theme3.html',
+                    controller: 'DragListController as dragList'
                 });
 
         });
