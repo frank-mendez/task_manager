@@ -519,8 +519,6 @@
 
         }
 
-
-
         $scope.userHandler = function(user){
 
             $scope.username = '';
