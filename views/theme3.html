@@ -1,16 +1,84 @@
-<div class="col-md-12" ng-init="authentication()">
+<div class="col-md-12">
     <div></div>
     <div class="col-sm-4">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title">To Do</h3>
+                <h3 class="panel-title">To Do
+                    <span class="pull-right">{{ todoItems.length }}</span>
+                    <span class="glyphicon glyphicon-plus pull-right" style="margin-right:15px;cursor:pointer;"></span>
+                </h3>
             </div>
             <div class="panel-body">
+                <div class="panel panel-default" ng-hide="dragList.addTodo">
+                    <div class="panel-body">
+                        <!--<pre>{{ dragList.data | json }}</pre>-->
+                        <form name="task_form" action="" novalidate class="form-horizontal">
+                            <!--<pre>{{ task_form | json}}</pre>-->
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <input type="text" required name="title" ng-model="dragList.data.title" class="form-control input-sm" placeholder="Title">
+                                    <span class="alert-danger" ng-show="task_form.title.$invalid && task_form.title.$dirty">This field is required</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-12">Description</label>
+                                <div class="col-sm-12">
+                                    <textarea name="description" ng-model="dragList.data.description" id="" class="form-control input-sm"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-6">Status</label>
+                                <label for="" class="col-sm-6">Priority</label>
+                                <div class="col-sm-6">
+                                    <select name="status" ng-model="dragList.data.status" class="form-control input-sm">
+                                        <option value="to-do">To do</option>
+                                        <option value="on the process">In Progress</option>
+                                        <option value="completed">Completed</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <select name="priority" ng-model="dragList.data.priority" class="form-control input-sm">
+                                        <option value="low">Low</option>
+                                        <option value="high">High</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <label for="" class="col-sm-12">Labels</label>
+                            <div class="form-group" ng-repeat="label in dragList.data.labels">
+                                <div class="col-sm-12" >
+                                    <input name="label[]" required type="text" ng-model="label.text" class="form-control input-sm" placeholder="">
+                                    <span class="alert-danger" ng-show="task_form.label.$invalid && task_form.label.$dirty">This field is required</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-8">
+                                    <button type="button" ng-click="dragList.addLabel()" class="btn btn-sm btn-primary btn-block">Add Label</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" ng-click="dragList.cancel()" class="btn btn-default btn-sm">Cancel</button>
+                        <div class="pull-right">
+                            <button type="button" ng-click="dragList.create()"  ng-disabled="task_form.$invalid"
+                                    class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> Add Task</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
                 <!--<pre>{{ dragList.todoList | json }}</pre>-->
                 <div class='containerVertical'>
-                    <div class="panel panel-default" ng-repeat="todoItems in dragList.todoList" style="cursor: -webkit-grab;">
+                    <div class="panel panel-default" ng-repeat="todoItems in dragList.todoList as todoItems"  style="cursor: -webkit-grab;">
                         <div class="panel-body">
-                            <p>Title: <span>{{todoItems.title}}</span></p>
+                            <p><span>{{todoItems.title}}</span></p>
+                            <p class="panel-small-info">
+                                <span class="glyphicon glyphicon-user"></span> Created by: {{ todoItems.created_by }}
+                                <span class="glyphicon glyphicon-user"></span> Modified by: {{ todoItems.modified_by }}
+                            </p>
+                            <p class="panel-small-info">
+                                <span class="glyphicon glyphicon-time"></span> Added: {{ todoItems.date_added }}
+                                <span class="glyphicon glyphicon-time"></span> Date Modified: {{ todoItems.date_modified }}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -20,14 +88,82 @@
     <div class="col-sm-4">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title">In Progress</h3>
+                <h3 class="panel-title">In Progress
+                    <span class="pull-right">{{ inProg.length }}</span>
+                    <span class="glyphicon glyphicon-plus pull-right" style="margin-right:15px;cursor:pointer;"></span>
+                </h3>
             </div>
-            <div class="panel-body wrapper">
+            <div class="panel-body ">
+                <div class="panel panel-default" ng-hide="dragList.addTodo">
+                    <div class="panel-body">
+                        <!--<pre>{{ dragList.data | json }}</pre>-->
+                        <form name="task_form" action="" novalidate class="form-horizontal">
+                            <!--<pre>{{ task_form | json}}</pre>-->
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <input type="text" required name="title" ng-model="dragList.data.title" class="form-control input-sm" placeholder="Title">
+                                    <span class="alert-danger" ng-show="task_form.title.$invalid && task_form.title.$dirty">This field is required</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-12">Description</label>
+                                <div class="col-sm-12">
+                                    <textarea name="description" ng-model="dragList.data.description" id="" class="form-control input-sm"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-6">Status</label>
+                                <label for="" class="col-sm-6">Priority</label>
+                                <div class="col-sm-6">
+                                    <select name="status" ng-model="dragList.data.status" class="form-control input-sm">
+                                        <option value="to-do">To do</option>
+                                        <option value="on the process">In Progress</option>
+                                        <option value="completed">Completed</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <select name="priority" ng-model="dragList.data.priority" class="form-control input-sm">
+                                        <option value="low">Low</option>
+                                        <option value="high">High</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <label for="" class="col-sm-12">Labels</label>
+                            <div class="form-group" ng-repeat="label in dragList.data.labels">
+                                <div class="col-sm-12" >
+                                    <input name="label[]" required type="text" ng-model="label.text" class="form-control input-sm" placeholder="">
+                                    <span class="alert-danger" ng-show="task_form.label.$invalid && task_form.label.$dirty">This field is required</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-8">
+                                    <button type="button" ng-click="dragList.addLabel()" class="btn btn-sm btn-primary btn-block">Add Label</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" ng-click="dragList.cancel()" class="btn btn-default btn-sm">Cancel</button>
+                        <div class="pull-right">
+                            <button type="button" ng-click="dragList.create()"  ng-disabled="task_form.$invalid"
+                                    class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> Add Task</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
                 <!--<pre>{{ dragList.inProgList | json }}</pre>-->
                 <div class='containerVertical'>
-                    <div class="panel panel-default" ng-repeat="todoItems in dragList.inProgList" style="cursor: -webkit-grab;">
+                    <div class="panel panel-default" ng-repeat="inProg in dragList.inProgList as inProg" style="cursor: -webkit-grab;">
                         <div class="panel-body">
-                            <p>Title: <span>{{todoItems.title}}</span></p>
+                            <p><span>{{inProg.title}}</span></p>
+                            <p class="panel-small-info">
+                                <span class="glyphicon glyphicon-user"></span> Created by: {{ inProg.created_by }}
+                                <span class="glyphicon glyphicon-user"></span> Modified by: {{ inProg.modified_by }}
+                            </p>
+                            <p class="panel-small-info">
+                                <span class="glyphicon glyphicon-time"></span> Added: {{ inProg.date_added }}
+                                <span class="glyphicon glyphicon-time"></span> Date Modified: {{ inProg.date_modified }}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -37,14 +173,82 @@
     <div class="col-sm-4">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title">Completed</h3>
+                <h3 class="panel-title">Completed
+                    <span class="pull-right">{{ completedItems.length }}</span>
+                    <span class="glyphicon glyphicon-plus pull-right" style="margin-right:15px;cursor:pointer;"></span>
+                </h3>
             </div>
             <div class="panel-body">
+                <div class="panel panel-default" ng-hide="dragList.addTodo">
+                    <div class="panel-body">
+                        <!--<pre>{{ dragList.data | json }}</pre>-->
+                        <form name="task_form" action="" novalidate class="form-horizontal">
+                            <!--<pre>{{ task_form | json}}</pre>-->
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <input type="text" required name="title" ng-model="dragList.data.title" class="form-control input-sm" placeholder="Title">
+                                    <span class="alert-danger" ng-show="task_form.title.$invalid && task_form.title.$dirty">This field is required</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-12">Description</label>
+                                <div class="col-sm-12">
+                                    <textarea name="description" ng-model="dragList.data.description" id="" class="form-control input-sm"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-6">Status</label>
+                                <label for="" class="col-sm-6">Priority</label>
+                                <div class="col-sm-6">
+                                    <select name="status" ng-model="dragList.data.status" class="form-control input-sm">
+                                        <option value="to-do">To do</option>
+                                        <option value="on the process">In Progress</option>
+                                        <option value="completed">Completed</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <select name="priority" ng-model="dragList.data.priority" class="form-control input-sm">
+                                        <option value="low">Low</option>
+                                        <option value="high">High</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <label for="" class="col-sm-12">Labels</label>
+                            <div class="form-group" ng-repeat="label in dragList.data.labels">
+                                <div class="col-sm-12" >
+                                    <input name="label[]" required type="text" ng-model="label.text" class="form-control input-sm" placeholder="">
+                                    <span class="alert-danger" ng-show="task_form.label.$invalid && task_form.label.$dirty">This field is required</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-8">
+                                    <button type="button" ng-click="dragList.addLabel()" class="btn btn-sm btn-primary btn-block">Add Label</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" ng-click="dragList.cancel()" class="btn btn-default btn-sm">Cancel</button>
+                        <div class="pull-right">
+                            <button type="button" ng-click="dragList.create()"  ng-disabled="task_form.$invalid"
+                                    class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> Add Task</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
                 <!--<pre>{{ dragList.completedList | json }}</pre>-->
                 <div class='containerVertical'>
-                    <div class="panel panel-default" ng-repeat="todoItems in dragList.completedList" style="cursor: -webkit-grab;">
+                    <div class="panel panel-default" ng-repeat="completedItems in dragList.completedList as completedItems" style="cursor: -webkit-grab;">
                         <div class="panel-body">
-                            <p>Title: <span>{{todoItems.title}}</span></p>
+                            <p><span>{{completedItems.title}}</span></p>
+                            <p class="panel-small-info">
+                                <span class="glyphicon glyphicon-user"></span> Created by: {{ completedItems.created_by }}
+                                <span class="glyphicon glyphicon-user"></span> Modified by: {{ completedItems.modified_by }}
+                            </p>
+                            <p class="panel-small-info">
+                                <span class="glyphicon glyphicon-time"></span> Added: {{ completedItems.date_added }}
+                                <span class="glyphicon glyphicon-time"></span> Date Modified: {{ completedItems.date_modified }}
+                            </p>
                         </div>
                     </div>
                 </div>
